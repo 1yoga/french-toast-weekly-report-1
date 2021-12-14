@@ -1,5 +1,5 @@
 import React from "react";
-import { BsGear, BsBoxArrowLeft } from "react-icons/bs";
+import { BsGear } from "react-icons/bs";
 
 export const navGroup1 = [
     {
@@ -39,10 +39,5 @@ export const navGroup2 = [
         Text: "My Profile",
         Link: "/my-profile",
         Icon: <BsGear />,
-    },
-    {
-        Text: "Sign Out",
-        Link: "/sign-out",
-        Icon: <BsBoxArrowLeft />,
     },
 ];
