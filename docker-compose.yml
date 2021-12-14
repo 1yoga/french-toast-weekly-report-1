@@ -9,3 +9,9 @@ services:
       - 80:80
     environment:
       NODE_ENV: production
+    networks:
+      - front
+networks:
+  front:
+    external:
+      name: cmweeklyteamreport_front
