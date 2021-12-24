@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FillOutReportHeader } from "./FillOutReport.Header.component";
 import { FillOutCard } from "./FillOutReport.Card.component";
 import { DateRangePicker } from "rsuite";
@@ -6,9 +6,12 @@ import { HelmetComponent } from "../common/Helmet/Helmet.component";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import createWeeklyReport from "./FillOutReport.service";
 import * as Yup from "yup";
+import { Context } from "../app/App.component";
 
 export const FillOutReport = () => {
     const [sendError, setSendError] = useState(false);
+    const { currentUser } = useContext(Context);
+
     const SendError = () => <p className="text-danger fw-bold">All fields are required unless marked as optional.</p>;
 
     function sendReport() {
@@ -32,18 +35,15 @@ export const FillOutReport = () => {
         [values.DateFrom, values.DateTo] = document.querySelector('input#dateRange').value.split(' ~ ');
         if (!sendError) {
             console.log(values);
-            //здесь и чуть ниже в initialValues 48 и 7 - захардкоженные companyId и teamMemberId из конкретно моей БД
-            //в дальнейшем будут браться актуальные значения из хранилища
-            createWeeklyReport(values,4,3).then(response => console.log(response));
+            createWeeklyReport(values, currentUser.companyId, currentUser.teamMemberId).then(response => console.log(response));
         }
-        
     }
 
     return (
         <>
             <HelmetComponent title="Fill Out Report" />
             <div className={"text-center"}>
-                <FillOutReportHeader />
+                <FillOutReportHeader userName={currentUser.firstName}/>
 
                 <Formik
                     initialValues={{
@@ -58,7 +58,7 @@ export const FillOutReport = () => {
                         AnythingElseComment: "",
                         DateFrom: "",
                         DateTo: "",
-                        TeamMemberId: 3
+                        TeamMemberId: currentUser.teamMemberId
                     }}
                     validationSchema={Yup.object({
                         MoraleComment: Yup.string().max(600, 'Must be 600 characters or less'),

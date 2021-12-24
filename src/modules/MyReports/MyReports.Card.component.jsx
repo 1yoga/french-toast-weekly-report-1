@@ -4,11 +4,12 @@ import img2 from "../../img/smiles/smile_ducked_up.png";
 import img3 from "../../img/smiles/smile_sad.png";
 import img4 from "../../img/smiles/smile_alright.png";
 import img5 from "../../img/smiles/smile_excelent.png";
+import img0 from "../../img/smiles/smile_is_absent.png";
 import Accordion from 'react-bootstrap/Accordion'
 
 export const FilledCard = (reportData, index) =>{
-    const imgArray = [null,img1,img2,img3,img4,img5]
-    const titleArray = ["","VeryLow","Low","Okay","Good","Great"]
+    const imgArray = [img0,img1,img2,img3,img4,img5]
+    const titleArray = ["Nothing","VeryLow","Low","Okay","Good","Great"]
     //TODO разобраться с reportData.reportData
     return(
         <Accordion.Item className="p-0" eventKey={index}>

@@ -6,6 +6,7 @@ import {Form, Formik} from "formik";
 import {Context} from "../app/App.component";
 import {createLink} from "../common/Utiles/function";
 import {TextInput} from "../common/Formik/textInput.component";
+import * as Yup from "yup";
 
 export const InviteYourTeam = () => {
     const {currentUser} = useContext(Context);
@@ -14,13 +15,13 @@ export const InviteYourTeam = () => {
 
     useEffect(async () => {
         if (inviteLink) {
-            alert(inviteLink)
+            prompt("please press ctrl+c to copy the Link with invitation", inviteLink)
         }
-    }, [inviteLink]);
+    }, [inviteLink, success]);
 
     const onSubmit = async (values, {setSubmitting, resetForm}) => {
         setSuccess(true);
-        await setInviteLink("http://localhost:3000/invite?" + (createLink(values)))
+        await setInviteLink("https://weekly-report-01.digitalocean.ankocorp.com/invite?" + (createLink(values)))
         setSubmitting(false);
         resetForm()
     }
@@ -42,6 +43,16 @@ export const InviteYourTeam = () => {
                                 companyId: currentUser.companyId,
                                 teamMemberTo: currentUser.teamMemberId
                             }}
+                            validationSchema={Yup.object({
+                                FirstName: Yup.string()
+                                    .max(100, 'Must be 100 characters or less')
+                                    .required('Required'),
+                                LastName: Yup.string()
+                                    .max(100, 'Must be 100 characters or less')
+                                    .required('Required'),
+                                Mail: Yup.string().email('Invalid email')
+                                    .required('Required'),
+                            })}
                             onSubmit={onSubmit}
                         >
                             {({isSubmitting}) => (

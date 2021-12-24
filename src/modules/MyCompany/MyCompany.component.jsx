@@ -9,6 +9,7 @@ import {getJoinDate} from "../common/Utiles/function";
 import {TextInput} from "../common/Formik/textInput.component";
 
 export const MyCompany = () => {
+
     const {currentUser, setUpdateCompany} = useContext(Context);
 
     const onSubmit = async (values, {setSubmitting, resetForm}) => {
@@ -61,8 +62,7 @@ export const MyCompany = () => {
                         </Formik>
                     </div>
                     <div className="page-section">
-                        <div className="title border-bottom">SEE A LIST OF {currentUser.companyName.toUpperCase()}'S
-                            TEAM
+                        <div className="title border-bottom">SEE A LIST OF {currentUser.companyName.toUpperCase()}'S TEAM
                             MEMBERS
                         </div>
                         <p className="page-text">

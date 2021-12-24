@@ -1,16 +1,21 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext } from "react";
 import {Header} from "../common/Header/Header.component";
 import {MyReportsCard} from "./MyReports.Card.component";
 import {HelmetComponent} from "../common/Helmet/Helmet.component";
 import { api } from "../api/api.service";
+import { Context } from "../app/App.component";
 
 export const MyReports = () => {
     const [reports, setReports] = useState(null);
+    const { currentUser } = useContext(Context);
+
     async function getReports(){
-        const companyId = 0, teamMemberId = 3; // teamMemberId - TEMP
+        const companyId = currentUser.companyId;
+        const teamMemberId = currentUser.teamMemberId;
         return await api.get(`companies/${companyId}/team-members/${teamMemberId}/reports`, {validateStatus: false})
             .then((response)=> response.data);
     }
+    
     useEffect(() => {
         async function fetchData() {
             try {
@@ -35,17 +40,18 @@ export const MyReports = () => {
             items2[i].setAttribute('class','accordion-button');
         }
     }
-    const defaultUserName = "default username";
+    const userName = `${currentUser.firstName} ${currentUser.lastName}`;
+    const userMail = currentUser.mail;
 
     return(
         <>
             <HelmetComponent title="My Reports"/>
             <Header>
                 <div className="mx-auto header-avatar">
-                    <div>{"!~AK"}</div>
+                    <div>{`${currentUser.firstName[0]}${currentUser.lastName[0]}`}</div>
                 </div>
-                <h1 className="header-title">{"!~"+defaultUserName}</h1>
-                <span className="header-subtitle">!~default e-mail</span>
+                <h1 className="header-title">{userName}</h1>
+                <span className="header-subtitle">{userMail}</span>
             </Header>
             <div className="p-5 pb-4 text-center">
                 <strong>PAST WEEKLY REPORTS</strong>
