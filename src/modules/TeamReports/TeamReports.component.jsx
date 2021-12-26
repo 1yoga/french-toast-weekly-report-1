@@ -9,18 +9,24 @@ import * as Dates from "../common/Utiles/DateUtiles";
 import { WeeklyOlderReports } from "../WeeklyReportHistory/WeeklyReportHistory.OlderReports";
 import getWeeklyReportHistoryToUser from "../TeamReports/TeamReports.service";
 import { Context } from "../app/App.component";
+import moment from "moment";
+import { baseUrl } from "../common/Utiles/function";
 
 export const TeamReports = () => {
     const [activeTeam, setActiveTeam] = useState(0);
     const [activePeriod, setActivePeriod] = useState(1);
+    const [activeMoraleFilter, setActiveMoraleFilter] = useState(-1);
     const dates = Dates.getCurrentAndPreviousDate();
     const firstday = dates[0];
     const lastday = dates[1];
     const firstdayPrev = dates[2];
     const lastdayPrev = dates[3];
-    const periods = ["Previous period: " + Dates.DateToString(firstdayPrev) + " — " + Dates.DateToString(lastdayPrev), "Current period: " + Dates.DateToString(firstday) + " — " + Dates.DateToString(lastday), "Older Reports"];
+    const periods = [`Previous period: ${Dates.getPreviousPeriod()}`, `Current Period: ${Dates.getCurrentPeriod()}`, "Older Reports"];
     const initials = (item) => {
-        return item.split(" ").map((n) => n[0]).join("");
+        return item
+            .split(" ")
+            .map((n) => n[0])
+            .join("");
     };
     const [reports, setReports] = useState([]);
     const [teamMembersForInititals, setTeamMembersForInititals] = useState([]);
@@ -30,7 +36,9 @@ export const TeamReports = () => {
     const { currentUser } = useContext(Context);
 
     async function InitReports() {
-        const data = await getWeeklyReportHistoryToUser(currentUser.companyId, currentUser.teamMemberId, "20211018", "20211220");
+        const nineWeeksAgoMonday = moment().subtract(9, "week").startOf("isoWeek").format("YYYY-MM-DD");
+        const currentMonday = moment().startOf("isoWeek").format("YYYY-MM-DD");
+        const data = await getWeeklyReportHistoryToUser(currentUser.companyId, currentUser.teamMemberId, nineWeeksAgoMonday, currentMonday);
         setReportHistory(data);
         let teamMembersTemp = [];
         data.forEach((item) => {
@@ -41,8 +49,7 @@ export const TeamReports = () => {
 
     async function getReports() {
         const teamMemberId = currentUser.teamMemberId;
-        return [await api.get(`companies/0/team-members/${teamMemberId}/reports/to/${Dates.DateToString(firstdayPrev)}/${Dates.DateToString(lastdayPrev)}`, { validateStatus: false }).then((response) => response.data), 
-                await api.get(`companies/0/team-members/${teamMemberId}/reports/to/${Dates.DateToString(firstday)}/${Dates.DateToString(lastday)}`, { validateStatus: false }).then((response) => response.data)];
+        return [await api.get(`companies/0/team-members/${teamMemberId}/reports/to/${Dates.DateToString(firstdayPrev)}/${Dates.DateToString(lastdayPrev)}`, { validateStatus: false }).then((response) => response.data), await api.get(`companies/0/team-members/${teamMemberId}/reports/to/${Dates.DateToString(firstday)}/${Dates.DateToString(lastday)}`, { validateStatus: false }).then((response) => response.data)];
     }
 
     async function getTeamMembers() {
@@ -56,6 +63,11 @@ export const TeamReports = () => {
                 setReports(await getReports());
                 setTeamMembersForInititals(await getTeamMembers());
                 await InitReports();
+                const url = new URL(window.location.href);
+                const period = parseInt(url.searchParams.get("period"));
+                const filter = parseInt(url.searchParams.get("filter"));
+                setActivePeriod(period);
+                isNaN(filter) ? setActiveMoraleFilter(0) : setActiveMoraleFilter(filter);
             } catch (error) {
                 console.error(error);
             }
@@ -78,11 +90,14 @@ export const TeamReports = () => {
             <HelmetComponent title="Team Reports" />
             <Header>
                 <div className="pt-2">
-                    {["Immediate Team", "Extended Team"].map((item, index) => (
-                        <NavLink to={item === "Extended Team" ? "weekly-report-history" : "#"} key={index} className={activeTeam === index ? "py-0 btn btn-dark btnActive" : "py-0 btn btn-dark btnDisable"} onClick={() => setActiveTeam(index)}>
-                            {item}
-                        </NavLink>
-                    ))}
+                    {["Immediate Team", "Extended Team"].map((item, index) => {
+                        const link = activePeriod === 2 ? `/team-reports?period=${activePeriod}&filter=${activeMoraleFilter}#` : `/team-reports?period=${activePeriod}`;
+                        return (
+                            <NavLink to={item === "Extended Team" ? "/weekly-report-history?period=2&filter=0" : link} key={index} className={activeTeam === index ? "py-0 btn btn-dark btnActive" : "py-0 btn btn-dark btnDisable"} onClick={() => setActiveTeam(index)}>
+                                {item}
+                            </NavLink>
+                        );
+                    })}
                 </div>
                 <div className="pt-4 d-flex mx-auto">
                     {teamMembersForInititals.slice(0, 4).map((item, index) => (
@@ -105,6 +120,8 @@ export const TeamReports = () => {
                             className={activePeriod === index ? "py-0 btn btn-dark btnActive" : "py-0 btn btn-dark btnDisable"}
                             onClick={() => {
                                 setActivePeriod(index);
+                                const path = new URL(window.location.href).toString().includes("weekly-report-history") ? "weekly-report-history" : "team-reports";
+                                index !== 2 ? history.pushState(null, null, baseUrl + "/" + path + `/?period=${index}`) : history.pushState(null, null, baseUrl + "/" + path + `/?period=${index}&filter=0`);
                             }}
                         >
                             {item}
@@ -145,7 +162,7 @@ export const TeamReports = () => {
 
             {activePeriod === 2 && (
                 <div className="pb-4 text-center">
-                    <WeeklyOlderReports reports={reportHistory} members={teamMembers} />
+                    <WeeklyOlderReports reports={reportHistory} members={teamMembers} activePeriod={activePeriod} activeMoraleFilter={activeMoraleFilter} setActiveMoraleFilter={setActiveMoraleFilter} />
                 </div>
             )}
         </>

@@ -29,3 +29,6 @@ export const linkToObject = (link) => {
     }
     return obj
 }
+
+// export const baseUrl = 'http://localhost:3000';
+export const baseUrl = 'https://weekly-report-01.digitalocean.ankocorp.com';

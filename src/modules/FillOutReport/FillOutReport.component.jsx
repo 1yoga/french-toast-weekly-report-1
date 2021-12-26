@@ -28,7 +28,15 @@ export const FillOutReport = () => {
         }
     }
 
-    const onSubmit = (values) => {
+    function resetFormFull(resetForm) {
+        resetForm();
+        ["MoraleValue", "StressValue", "WorkloadValue"].forEach(el => {
+            document.querySelector("[name="+ el + "]")?.click();    
+        })
+        document.querySelector('[aria-label=Clear]').click();
+    }
+
+    const onSubmit = (values, { resetForm }) => {
         values.MoraleValueId = document.querySelector("[name=MoraleValue")?.getAttribute("id") ?? 0;
         values.StressValueId = document.querySelector("[name=StressValue")?.getAttribute("id") ?? 0;
         values.WorkloadValueId = document.querySelector("[name=WorkloadValue")?.getAttribute("id") ?? 0;
@@ -37,6 +45,7 @@ export const FillOutReport = () => {
             console.log(values);
             createWeeklyReport(values, currentUser.companyId, currentUser.teamMemberId).then(response => console.log(response));
         }
+        resetFormFull(resetForm);
     }
 
     return (

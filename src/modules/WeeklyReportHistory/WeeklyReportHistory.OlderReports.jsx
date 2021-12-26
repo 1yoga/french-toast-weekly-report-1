@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import { WeekAgo } from "./WeekAgo.component";
 import { WeeksHeader } from "./WeeksHeader.component";
 import { weekAgoStore } from "../../store/weekAgoStore";
 import { WeeklyReportHistoryCard } from "./WeeklyReportHistoryCard.component";
 import { WeeklyReportHistoryCardAverage } from "./WeeklyReportHistoryCardAverage.component";
+import { baseUrl } from "../common/Utiles/function";
 
-export const WeeklyOlderReports = ({ reports, members }) => {
+export const WeeklyOlderReports = ({ reports, members, activePeriod, activeMoraleFilter, setActiveMoraleFilter }) => {
     const teamMembers = members;
     const reportHistory = reports;
-    const [activeMoraleFilter, setActiveMoraleFilter] = useState(0);
     const averageMorales = ["Overall", "Morales", "Stress", "Workload"];
+
+    const path = new URL(window.location.href).toString().includes("weekly-report-history") ? "weekly-report-history" : "team-reports";
+    history.pushState(null, null, baseUrl+"/"+path+`/?period=${activePeriod}&filter=${activeMoraleFilter}`);
+
     return (
         <>
             <div className="pt-4">

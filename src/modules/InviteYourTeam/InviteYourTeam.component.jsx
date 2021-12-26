@@ -4,9 +4,10 @@ import {Header} from "../common/Header/Header.component";
 import {HelmetComponent} from "../common/Helmet/Helmet.component";
 import {Form, Formik} from "formik";
 import {Context} from "../app/App.component";
-import {createLink} from "../common/Utiles/function";
+import {createLink, baseUrl} from "../common/Utiles/function";
 import {TextInput} from "../common/Formik/textInput.component";
 import * as Yup from "yup";
+import {api} from "../api/api.service";
 
 export const InviteYourTeam = () => {
     const {currentUser} = useContext(Context);
@@ -21,8 +22,14 @@ export const InviteYourTeam = () => {
 
     const onSubmit = async (values, {setSubmitting, resetForm}) => {
         setSuccess(true);
-        await setInviteLink("https://weekly-report-01.digitalocean.ankocorp.com/invite?" + (createLink(values)))
+        await setInviteLink(baseUrl + "/invite?" + (createLink(values)))
         setSubmitting(false);
+            await api.post("invite", {
+            email: values.Mail,
+            inviteLink: inviteLink,
+            userName: `${values.FirstName} ${values.LastName}`,
+            companyName: currentUser.companyName
+            });
         resetForm()
     }
     return (

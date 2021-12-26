@@ -37,7 +37,7 @@ export const WeeklyReportHistoryCard = ({ cardName, id, reportHistory, filter })
             <div className="card-name mt-1">{cardName}</div>
             <div className="smiles d-flex align-items-center justify-content-between">
                 {userSmiles.map((item, index) => (
-                    <img key={index} className="smile mr-3" src={item.imageSmall} alt={item.alt} />
+                    <img key={index} className="smile mr-3" src={item?.imageSmall} alt={item?.alt} />
                 ))}
             </div>
         </div>

@@ -13,7 +13,7 @@ export const navGroup1 = [
     },
     {
         Text: "Team Reports",
-        Link: "/team-reports",
+        Link: "/team-reports?period=1",
     },
     {
         Text: "My Reports",
