@@ -1,18 +1,18 @@
-import React, {useEffect, useState} from "react";
-import {Article} from "../common/Article/Article.component";
-import {useAuth0} from '@auth0/auth0-react';
+import React, { useEffect, useState } from "react";
+import { Article } from "../common/Article/Article.component";
+import { useAuth0 } from '@auth0/auth0-react';
 import WelcomePage from "../WelcomePage/WelcomePage";
-import {InvitePage} from "../InvitePage/InvitePage.component";
-import {NewCompany} from "../MyCompany/NewCompany.component";
+import { InvitePage } from "../InvitePage/InvitePage.component";
+import { NewCompany } from "../MyCompany/NewCompany.component";
 import * as appService from "./App.service";
-import {NewTeamMember} from "../InvitePage/NewTeamMember.component";
-import {Loader} from "../common/Loader/Loader.component";
+import { NewTeamMember } from "../InvitePage/NewTeamMember.component";
+import { Loader } from "../common/Loader/Loader.component";
 
 export const Context = React.createContext(null)
 
 export function App() {
     const [currentUser, setCurrentUser] = useState()
-    const {isAuthenticated, user, isLoading} = useAuth0();
+    const { isAuthenticated, user, isLoading } = useAuth0();
     const currentLocation = window.location;
     const [hasCompany, setHasCompany] = useState(false)
     const [createNewCompany, setCreateNewCompany] = useState()
@@ -49,7 +49,7 @@ export function App() {
 
     if (isAuthenticated && hasCompany && (isLoading || loading)) {
         return (
-            <Loader/>
+            <Loader />
         )
     }
 
@@ -64,15 +64,15 @@ export function App() {
         }}>
             {currentLocation.pathname === "/invite"
                 ? (isAuthenticated && hasCompany
-                    ? <Article/>
+                    ? <Article />
                     : (isAuthenticated && !hasCompany)
-                        ? <NewTeamMember/>
-                        : <InvitePage/>)
+                        ? <NewTeamMember />
+                        : <InvitePage />)
                 : (isAuthenticated && hasCompany)
-                    ? <Article/>
+                    ? <Article />
                     : (isAuthenticated && !hasCompany)
-                        ? <NewCompany/>
-                        : <WelcomePage/>
+                        ? <NewCompany />
+                        : <WelcomePage />
             }
         </Context.Provider>
     );

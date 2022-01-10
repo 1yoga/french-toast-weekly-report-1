@@ -1,16 +1,15 @@
 .btnActive {
-  border: solid 2px #FCD214!important;
-  box-shadow: none!important;
+  border: solid 2px #fcd214 !important;
+  box-shadow: none !important;
 }
 
 .btnDisable {
   color: gray;
-  box-shadow: none!important;
-
+  box-shadow: none !important;
 }
 
 .name-team-report {
-  text-align: left!important;
+  text-align: left !important;
 }
 
 .expand-all {
@@ -21,16 +20,16 @@
 }
 
 header {
-  .behind{
+  .behind {
     margin-right: -7px;
   }
   .round-yellow {
-    background-color: #FCD214 !important
+    background-color: #fcd214 !important;
   }
 
   .round {
     outline: solid 3px white;
-    background-color: #D5D9DB;
+    background-color: #d5d9db;
     width: 60px;
     height: 60px;
     font-size: 20px;
@@ -43,7 +42,7 @@ header {
 }
 .round {
   outline: solid 3px white;
-  background-color: #D5D9DB;
+  background-color: #d5d9db;
   width: 60px;
   height: 60px;
   font-size: 20px;

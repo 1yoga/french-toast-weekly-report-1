@@ -8,7 +8,7 @@ export const getUserBySub = (sub) => {
 export const getUser = async (sub) => {
     let teamMember = await api.get(`team-members/${sub}`)
     let company = await api.get(`companies/${teamMember.data.companyId}`)
-    return {...teamMember.data, ...company.data }
+    return { ...teamMember.data, ...company.data }
 };
 
 

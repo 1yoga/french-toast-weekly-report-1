@@ -1,7 +1,7 @@
 .modal1 {
   height: 100%;
   width: 100%;
-  background-color: rgba(255,255,255,0.8);
+  background-color: rgba(255, 255, 255, 0.8);
   position: fixed;
   top: 0;
   left: 0;
@@ -15,8 +15,8 @@
 .tags {
   display: flex;
   flex-wrap: wrap;
-  margin-top:3rem;
-  margin-bottom:0.7rem;
+  margin-top: 3rem;
+  margin-bottom: 0.7rem;
   .input-group {
     width: auto;
     margin: 0 0.5rem 0.5rem 0;
@@ -34,6 +34,6 @@
 
 .name-btn {
   path {
-    stroke: #8E999E;
+    stroke: #8e999e;
   }
 }

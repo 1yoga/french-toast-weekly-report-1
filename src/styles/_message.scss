@@ -1,0 +1,27 @@
+.message {
+  position: fixed;
+  left: 30px;
+  bottom: 30px;
+  z-index: 2000;
+  margin-bottom: 0px !important;
+  transition: all 0.3s;
+}
+.message-enter {
+  opacity: 0;
+}
+.message-enter-active {
+  opacity: 1;
+  transform: translateX(330px);
+}
+.message-enter-done {
+  opacity: 1;
+  transform: translateX(300px);
+}
+.message-exit {
+  opacity: 1;
+  transform: translateX(330px);
+}
+.message-exit-active {
+  opacity: 0;
+  transform: translateX(-330px);
+}

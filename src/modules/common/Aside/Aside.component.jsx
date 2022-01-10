@@ -2,7 +2,7 @@ import React from "react";
 import logoPng from "../../../img/logo.png";
 import { NavLink } from "react-router-dom";
 import { navGroup1, navGroup2 } from "../../../store/navStore";
-import {AuthenticationButton} from "../buttons/auth-buttons/authentication-button";
+import { AuthenticationButton } from "../buttons/auth-buttons/authentication-button";
 
 export const Aside = () => {
     return (

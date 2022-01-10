@@ -91,7 +91,7 @@ span {
 .param-button {
   width: 200px;
   height: 60px;
-  
+
   color: $white;
   font-weight: bold;
   padding-left: 70px;
@@ -99,28 +99,28 @@ span {
 .button-wrapper {
   position: relative;
   & .smile-icon {
-      position: absolute;
-      top: 50%;
-      left: 10px;
-      transform: translateX(0%) translateY(-50%);
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateX(0%) translateY(-50%);
   }
 }
-.button-VeryLow{
+.button-VeryLow {
   background-color: #fc6868;
 }
-.button-Low{
+.button-Low {
   background-color: #fca368;
 }
-.button-Okay{
+.button-Okay {
   background-color: #e4e76a;
 }
-.button-Good{
+.button-Good {
   background-color: #92fc68;
 }
-.button-Great{
+.button-Great {
   background-color: #42b447;
 }
-.button-Nothing{
+.button-Nothing {
   background-color: #b4b4b4;
 }
 .smile-icon {

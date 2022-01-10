@@ -1,11 +1,11 @@
 import React from "react";
-import {BsGear} from "react-icons/bs";
+import { BsGear } from "react-icons/bs";
 
 export const navGroup1 = [
     {
         Text: "Launch Guide",
         Link: "/",
-        isExact: true
+        isExact: true,
     },
     {
         Text: "Invite Your Team",
@@ -34,6 +34,6 @@ export const navGroup2 = [
     {
         Text: "My Profile",
         Link: "/my-profile",
-        Icon: <BsGear/>,
+        Icon: <BsGear />,
     },
 ];

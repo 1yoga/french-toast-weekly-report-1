@@ -1,14 +1,14 @@
 import moment from "moment";
-export const getCurrentAndPreviousDate = () =>{
+export const getCurrentAndPreviousDate = () => {
     const firstday = moment().startOf("isoWeek");
     const lastday = moment().endOf("isoWeek");
     const firstdayPrev = moment().subtract(1, "week").startOf("isoWeek");
     const lastdayPrev = moment().subtract(1, "week").endOf("isoWeek");
-    return [firstday,lastday,firstdayPrev, lastdayPrev];
+    return [firstday, lastday, firstdayPrev, lastdayPrev];
 }
-export const DateToString = (date) =>{
+export const DateToString = (date) => {
     date = new Date(date);
-    return date.getFullYear() + "-" +(date.getMonth() + 1) + "-" + date.getDate()
+    return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
 }
 export const getCurrentPeriod = () => {
     const startDate = moment().startOf("isoWeek");

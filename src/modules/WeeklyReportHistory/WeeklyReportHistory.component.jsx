@@ -43,11 +43,7 @@ export const WeeklyReportHistory = () => {
 
     async function getReports() {
         const companyId = currentUser.companyId;
-        return [
-            await api.get(`companies/${companyId}/team-members/0/reports/to/${Dates.DateToString(firstdayPrev)}/${Dates.DateToString(lastdayPrev)}`, { validateStatus: false })
-                .then((response) => response.data), 
-            await api.get(`companies/${companyId}/team-members/0/reports/to/${Dates.DateToString(firstday)}/${Dates.DateToString(lastday)}`, { validateStatus: false })
-                .then((response) => response.data)];
+        return [await api.get(`companies/${companyId}/team-members/0/reports/to/${Dates.DateToString(firstdayPrev)}/${Dates.DateToString(lastdayPrev)}`, { validateStatus: false }).then((response) => response.data), await api.get(`companies/${companyId}/team-members/0/reports/to/${Dates.DateToString(firstday)}/${Dates.DateToString(lastday)}`, { validateStatus: false }).then((response) => response.data)];
     }
 
     async function InitReports() {

@@ -9,7 +9,7 @@ export const Auth0ProviderWithHistory = ({ children }) => {
         <Auth0Provider
             domain={domain}
             clientId={clientId}
-            redirectUri={window.location.pathname === "/invite"? window.location.href : window.location.origin}
+            redirectUri={window.location.pathname === "/invite" ? window.location.href : window.location.origin}
             cacheLocation="localstorage"
             useRefreshTokens={true}
         >

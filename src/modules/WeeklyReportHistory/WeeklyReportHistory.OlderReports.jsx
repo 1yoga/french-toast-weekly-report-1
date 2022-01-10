@@ -12,7 +12,7 @@ export const WeeklyOlderReports = ({ reports, members, activePeriod, activeMoral
     const averageMorales = ["Overall", "Morales", "Stress", "Workload"];
 
     const path = new URL(window.location.href).toString().includes("weekly-report-history") ? "weekly-report-history" : "team-reports";
-    history.pushState(null, null, baseUrl+"/"+path+`/?period=${activePeriod}&filter=${activeMoraleFilter}`);
+    history.pushState(null, null, baseUrl + "/" + path + `/?period=${activePeriod}&filter=${activeMoraleFilter}`);
 
     return (
         <>

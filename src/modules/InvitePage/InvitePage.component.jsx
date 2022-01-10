@@ -1,20 +1,19 @@
-import React from "react"
-import {useAuth0} from "@auth0/auth0-react";
-import {HelmetComponent} from "../common/Helmet/Helmet.component";
-import {Header} from "../common/Header/Header.component";
+import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { HelmetComponent } from "../common/Helmet/Helmet.component";
+import { Header } from "../common/Header/Header.component";
 
 export const InvitePage = () => {
-
-    const {loginWithRedirect} = useAuth0();
+    const { loginWithRedirect } = useAuth0();
     const currentLocation = window.location;
 
     const onClickButton = () => {
-        sessionStorage.setItem("href", currentLocation.search.substr(1))
-        loginWithRedirect()
-    }
+        sessionStorage.setItem("href", currentLocation.search.substr(1));
+        loginWithRedirect();
+    };
     return (
         <div>
-            <HelmetComponent title="Weekly Team Report"/>
+            <HelmetComponent title="Weekly Team Report" />
             <Header>
                 <div>
                     <h1 className="header-title">Weekly Team Report</h1>
@@ -28,5 +27,5 @@ export const InvitePage = () => {
                 </button>
             </div>
         </div>
-    )
-}
+    );
+};

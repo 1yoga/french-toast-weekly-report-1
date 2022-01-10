@@ -1,7 +1,6 @@
 import React from "react";
 import { smilesStore } from "../../store/smilesStore";
 
-
 function getSmileSet(id, reportHistory, filter) {
     let values;
     let userSmiles = [];

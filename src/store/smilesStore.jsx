@@ -14,46 +14,46 @@ import image3min from "../img/smiles/smile_sad.png";
 import image4min from "../img/smiles/smile_alright.png";
 import image5min from "../img/smiles/smile_excelent.png";
 import imageAbsent from "../img/smiles/smile_is_absent.png";
-export const smilesStore=[
+export const smilesStore = [
     {
         Text: "Nothing",
         imageDefault: imageAbsent,
         imageSmall: imageAbsent,
-        alt: "smile is absent"
+        alt: "smile is absent",
     },
     {
         Text: "VeryLow",
         imageDefault: image1,
         imageOnClick: image1Click,
         imageSmall: image1min,
-        alt: "smile very low"
+        alt: "smile very low",
     },
     {
         Text: "Low",
         imageDefault: image2,
         imageOnClick: image2Click,
         imageSmall: image2min,
-        alt: "smile low"
+        alt: "smile low",
     },
     {
         Text: "Okay",
         imageDefault: image3,
         imageOnClick: image3Click,
         imageSmall: image3min,
-        alt: "smile okay"
+        alt: "smile okay",
     },
     {
         Text: "Good",
         imageDefault: image4,
         imageOnClick: image4Click,
         imageSmall: image4min,
-        alt: "smile good"
+        alt: "smile good",
     },
     {
         Text: "Great",
         imageDefault: image5,
         imageOnClick: image5Click,
         imageSmall: image5min,
-        alt: "smile great"
-    }
-]
+        alt: "smile great",
+    },
+];

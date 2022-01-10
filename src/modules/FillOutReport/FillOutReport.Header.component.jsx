@@ -1,8 +1,7 @@
 import React from "react";
-import welcomeBack from "../../img/welcome-back.png"
+import welcomeBack from "../../img/welcome-back.png";
 
-export const FillOutReportHeader = ({userName}) =>
-{
+export const FillOutReportHeader = ({ userName }) => {
     return (
         <>
             <div className={"pt-5"}>
@@ -11,5 +10,5 @@ export const FillOutReportHeader = ({userName}) =>
                 <p className={"pt-4"}>Let your leader know where you're winning and struggling this week - in less than 10 minutes.</p>
             </div>
         </>
-    )
-}
+    );
+};

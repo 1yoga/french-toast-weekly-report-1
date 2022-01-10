@@ -10,10 +10,11 @@ import { getMemberInitials, getMembersFullName, getMembersName } from "../common
 import { Context } from "../app/App.component";
 import { api } from "../api/api.service";
 import { Loader } from "../common/Loader/Loader.component";
+import { Message } from "../common/Message/Message.component";
+import { CSSTransition } from "react-transition-group";
 
 export const EditMemberInformation = ({ member, edit }) => {
     const { setUpdateMember } = useContext(Context);
-    const { currentUser } = useContext(Context);
     const memberInitials = getMemberInitials(member);
     const membersFullName = getMembersFullName(member);
     const membersName = getMembersName(member);
@@ -23,10 +24,11 @@ export const EditMemberInformation = ({ member, edit }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [reportFromTo, setReportsFromTo] = useState([]);
     const [modalData, setModalData] = useState([]);
+    const [showMessage, setShowMessage] = useState(false);
 
     const onClickEdit = (e, data) => {
         setShowEdit(true);
-        setCurrentTitle(e.target.text);
+        setCurrentTitle(e.target.value);
         setModalData(data);
     };
 
@@ -34,12 +36,15 @@ export const EditMemberInformation = ({ member, edit }) => {
         await changeMemberInfo(member.companyId, values);
         setUpdateMember([values.firstName, values.lastName, values.title]);
         setSubmitting(false);
+        setShowMessage(true);
+        setTimeout(() => {
+            setShowMessage(false);
+        }, 4000);
     };
 
     async function getReports() {
-        const teamMemberId = currentUser.teamMemberId;
-        return [await api.get(`report-to/${teamMemberId}`, { validateStatus: false }).then((response) => response.data), 
-                await api.get(`report-from/${teamMemberId}`, { validateStatus: false }).then((response) => response.data)];
+        const teamMemberId = member.teamMemberId;
+        return [await api.get(`report-to/${teamMemberId}`, { validateStatus: false }).then((response) => response.data), await api.get(`report-from/${teamMemberId}`, { validateStatus: false }).then((response) => response.data)];
     }
 
     useEffect(async () => {
@@ -58,6 +63,9 @@ export const EditMemberInformation = ({ member, edit }) => {
 
     return (
         <>
+            <CSSTransition in={showMessage} classNames="message" timeout={300} unmountOnExit>
+                <Message text="Success! You have edited the team member info!" />
+            </CSSTransition>
             <HelmetComponent title="Edit Member Information" />
             <Header>
                 <div className="mx-auto header-avatar">
@@ -106,16 +114,17 @@ export const EditMemberInformation = ({ member, edit }) => {
                     <div className="page-section reports-control">
                         <div className="title border-bottom">{membersName.toUpperCase() + " REPORTS TO THE FOLLOWING LEADERS:"}</div>
                         <div className="team">
-                            {reportFromTo[1] !== [] &&
-                                reportFromTo[1].map((item, index) => (
-                                    <a key={index} href="#" className="me-2 btn btn-dark shadow-none" placeholder={item[0]}>
-                                        {item[1]} {item[2]}
-                                    </a>
-                                ))}
+                            {reportFromTo[1] !== []
+                                ? reportFromTo[1].map((item, index) => (
+                                      <a key={index} href="#" className="me-2 btn btn-dark shadow-none" placeholder={item[0]}>
+                                          {item[1]} {item[2]}
+                                      </a>
+                                  ))
+                                : null}
                         </div>
-                        <a onClick={(e) => onClickEdit(e, reportFromTo[1])} className="btn btn-outline-dark border-2 shadow-none" data-bs-toggle="modal" role="button">
+                        <button onClick={(e) => onClickEdit(e, reportFromTo[1])} className="btn btn-outline-dark border-2 fw-bold" data-bs-toggle="modal" value={"Edit Leader(s)"} role="button" disabled={edit}>
                             Edit Leader(s)
-                        </a>
+                        </button>
                     </div>
                     <div className="page-section reports-control">
                         <div className="title border-bottom">{"THE FOLLOWING TEAM MEMBERS REPORT TO " + membersName.toUpperCase() + ":"}</div>
@@ -128,9 +137,9 @@ export const EditMemberInformation = ({ member, edit }) => {
                                   ))
                                 : null}
                         </div>
-                        <a onClick={(e) => onClickEdit(e, reportFromTo[0])} className="btn btn-outline-dark border-2 shadow-none" data-bs-toggle="modal" role="button">
+                        <button onClick={(e) => onClickEdit(e, reportFromTo[0])} className="btn btn-outline-dark border-2 fw-bold" data-bs-toggle="modal" value={"Edit Member(s)"} role="button" disabled={edit}>
                             Edit Member(s)
-                        </a>
+                        </button>
                     </div>
                     <div className="page-section reports-control">
                         <div className="title border-bottom">{membersName.toUpperCase() + "'S INVITE LINK"}</div>

@@ -1,14 +1,14 @@
-import React from 'react';
-import {HelmetComponent} from "../common/Helmet/Helmet.component";
-import {Header} from "../common/Header/Header.component";
-import {useAuth0} from "@auth0/auth0-react";
+import React from "react";
+import { HelmetComponent } from "../common/Helmet/Helmet.component";
+import { Header } from "../common/Header/Header.component";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const WelcomePage = () => {
-    const {loginWithRedirect} = useAuth0();
+    const { loginWithRedirect } = useAuth0();
 
     return (
         <>
-            <HelmetComponent title="Weekly Team Report"/>
+            <HelmetComponent title="Weekly Team Report" />
             <Header>
                 <div>
                     <h1 className="header-title">Weekly Team Report</h1>
@@ -23,6 +23,6 @@ export const WelcomePage = () => {
             </div>
         </>
     );
-}
+};
 
 export default WelcomePage;

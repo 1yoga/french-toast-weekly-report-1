@@ -8,16 +8,16 @@ export const getMemberInitials = (member) => {
     return member.firstName.charAt(0) + member.lastName.charAt(0)
 }
 export const getMembersFullName = (member) => {
-   return  member.firstName + " " + member.lastName
+    return member.firstName + " " + member.lastName
 }
-export const getMembersName = (member)=> {
+export const getMembersName = (member) => {
     return member.firstName
 }
 
 export const createLink = (values) => {
     let obj = values
     let urlParam = []
-    for (let i in obj) {urlParam.push(encodeURI(i) + "=" + encodeURI(obj[i]))}
+    for (let i in obj) { urlParam.push(encodeURI(i) + "=" + encodeURI(obj[i])) }
     return "" + urlParam.join("&")
 }
 

@@ -7,9 +7,12 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import createWeeklyReport from "./FillOutReport.service";
 import * as Yup from "yup";
 import { Context } from "../app/App.component";
+import { Message } from "../common/Message/Message.component";
+import { CSSTransition } from "react-transition-group";
 
 export const FillOutReport = () => {
     const [sendError, setSendError] = useState(false);
+    const [showMessage, setShowMessage] = useState(false);
     const { currentUser } = useContext(Context);
 
     const SendError = () => <p className="text-danger fw-bold">All fields are required unless marked as optional.</p>;
@@ -22,7 +25,7 @@ export const FillOutReport = () => {
                 setSendError(true);
             }
         }
-        const dateRange = document.querySelector('#dateRange');
+        const dateRange = document.querySelector("#dateRange");
         if (dateRange.value === "") {
             setSendError(true);
         }
@@ -30,29 +33,35 @@ export const FillOutReport = () => {
 
     function resetFormFull(resetForm) {
         resetForm();
-        ["MoraleValue", "StressValue", "WorkloadValue"].forEach(el => {
-            document.querySelector("[name="+ el + "]")?.click();    
-        })
-        document.querySelector('[aria-label=Clear]').click();
+        ["MoraleValue", "StressValue", "WorkloadValue"].forEach((el) => {
+            document.querySelector("[name=" + el + "]")?.click();
+        });
+        document.querySelector("[aria-label=Clear]").click();
+        setShowMessage(true);
+        setTimeout(() => {
+            setShowMessage(false);
+        }, 4000);
     }
 
     const onSubmit = (values, { resetForm }) => {
         values.MoraleValueId = document.querySelector("[name=MoraleValue")?.getAttribute("id") ?? 0;
         values.StressValueId = document.querySelector("[name=StressValue")?.getAttribute("id") ?? 0;
         values.WorkloadValueId = document.querySelector("[name=WorkloadValue")?.getAttribute("id") ?? 0;
-        [values.DateFrom, values.DateTo] = document.querySelector('input#dateRange').value.split(' ~ ');
+        [values.DateFrom, values.DateTo] = document.querySelector("input#dateRange").value.split(" ~ ");
         if (!sendError) {
-            console.log(values);
-            createWeeklyReport(values, currentUser.companyId, currentUser.teamMemberId).then(response => console.log(response));
+            createWeeklyReport(values, currentUser.companyId, currentUser.teamMemberId);
+            resetFormFull(resetForm);
         }
-        resetFormFull(resetForm);
-    }
+    };
 
     return (
         <>
+            <CSSTransition in={showMessage} classNames="message" timeout={300} unmountOnExit>
+                <Message text="Success! You have filled out a report!" />
+            </CSSTransition>
             <HelmetComponent title="Fill Out Report" />
             <div className={"text-center"}>
-                <FillOutReportHeader userName={currentUser.firstName}/>
+                <FillOutReportHeader userName={currentUser.firstName} />
 
                 <Formik
                     initialValues={{
@@ -67,15 +76,15 @@ export const FillOutReport = () => {
                         AnythingElseComment: "",
                         DateFrom: "",
                         DateTo: "",
-                        TeamMemberId: currentUser.teamMemberId
+                        TeamMemberId: currentUser.teamMemberId,
                     }}
                     validationSchema={Yup.object({
-                        MoraleComment: Yup.string().max(600, 'Must be 600 characters or less'),
-                        StressComment: Yup.string().max(600, 'Must be 600 characters or less'),
-                        WorkloadComment: Yup.string().max(600, 'Must be 600 characters or less'),
-                        WeekHighComment: Yup.string().max(600, 'Must be 600 characters or less'),
-                        WeekLowComment: Yup.string().max(600, 'Must be 600 characters or less'),
-                        AnythingElseComment: Yup.string().max(400, 'Must be 400 characters or less')
+                        MoraleComment: Yup.string().max(600, "Must be 600 characters or less"),
+                        StressComment: Yup.string().max(600, "Must be 600 characters or less"),
+                        WorkloadComment: Yup.string().max(600, "Must be 600 characters or less"),
+                        WeekHighComment: Yup.string().max(600, "Must be 600 characters or less"),
+                        WeekLowComment: Yup.string().max(600, "Must be 600 characters or less"),
+                        AnythingElseComment: Yup.string().max(400, "Must be 400 characters or less"),
                     })}
                     onSubmit={onSubmit}
                 >
